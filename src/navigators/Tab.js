@@ -4,7 +4,7 @@ import {Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import {Home, Settings, Chat, Cloud} from '../screens';
+import {Home, List} from '../screens';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,7 +16,7 @@ export default function TabNavigator() {
         component={Home}
         options={{
           tabBarIcon: () => {
-            return <Icon name="home-outline" color="#000" size={20} />;
+            return <Icon name="people-outline" color="#000" size={20} />;
           },
           tabBarLabel: ({color, focused}) => {
             return <Text style={{color: focused ? color : '#000'}}>Home</Text>;
@@ -24,42 +24,14 @@ export default function TabNavigator() {
         }}
       />
       <Tab.Screen
-        name="Settings"
-        component={Settings}
+        name="List"
+        component={List}
         options={{
           tabBarIcon: () => {
-            return <Icon name="settings-outline" color="#000" size={20} />;
+            return <Icon name="ios-clipboard-outline" color="#000" size={20} />;
           },
           tabBarLabel: ({color, focused}) => {
-            return (
-              <Text style={{color: focused ? color : '#000'}}>Settings</Text>
-            );
-          },
-        }}
-      />
-      <Tab.Screen
-        name="Cloud"
-        component={Cloud}
-        options={{
-          tabBarIcon: () => {
-            return <Icon name="cloud-upload-outline" color="#000" size={20} />;
-          },
-          tabBarLabel: ({color, focused}) => {
-            return <Text style={{color: focused ? color : '#000'}}>Cloud</Text>;
-          },
-        }}
-      />
-      <Tab.Screen
-        name="Chat"
-        component={Chat}
-        options={{
-          tabBarIcon: () => {
-            return (
-              <Icon name="chatbubble-ellipses-outline" color="#000" size={20} />
-            );
-          },
-          tabBarLabel: ({color, focused}) => {
-            return <Text style={{color: focused ? color : '#000'}}>Chat</Text>;
+            return <Text style={{color: focused ? color : '#000'}}>List</Text>;
           },
         }}
       />

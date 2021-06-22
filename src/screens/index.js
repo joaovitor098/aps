@@ -1,4 +1,4 @@
 export {default as Home} from './Home';
-export {default as Settings} from './Settings';
-export {default as Chat} from './Chat';
-export {default as Cloud} from './Cloud';
+export {default as List} from './List';
+export {default as Login} from './Login';
+export {default as Signup} from './Signup';

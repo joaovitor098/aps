@@ -7,25 +7,34 @@ export default function Signup({navigation}) {
 
   function handleSubmit() {
     try {
-      const cadastros = firebase.database().ref('cadastros');
-      const chave = cadastros.push().key;
-
-      cadastros
-        .child(chave)
-        .set({
-          car: formValues.car,
-          phone: formValues.phone,
-          fruit: formValues.fruit,
-          hobby: formValues.hobby,
-          film: formValues.film,
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(formValues.email, formValues.password)
+        .then(res => {
+          firebase
+            .database()
+            .ref('usuarios')
+            .child(res.user.uid)
+            .set({
+              nome: formValues.name,
+              email: formValues.email,
+              password: formValues.password,
+              city: formValues.city,
+            })
+            .then(() => {
+              Alert.alert('Cadastrado com sucesso!', 'Seja bem vindo!!!');
+              navigation.navigate('Menus');
+            });
         })
-        .then(() => {
-          Alert.alert('Cadastrado com sucesso!');
-          navigation.navigate('Menus');
+        .catch(() => {
+          Alert.alert(
+            'Não foi possível criar seu cadastro',
+            'Verifique os campos e tente novamente',
+          );
         });
     } catch (error) {
       Alert.alert(
-        'Não foi possível efetuar seu cadastro',
+        'Não foi possível criar seu cadastro',
         'Tente novamente mais tarde',
       );
     }
@@ -39,7 +48,7 @@ export default function Signup({navigation}) {
   );
 
   const isValid = useCallback(() => {
-    const fields = ['car', 'phone', 'fruit', 'hobby', 'film'];
+    const fields = ['name', 'email', 'password', 'city'];
 
     return fields.every(
       field =>
@@ -53,34 +62,28 @@ export default function Signup({navigation}) {
     <View style={styles.container}>
       <TextInput
         style={styles.inputs}
-        placeholder="Car"
-        onChangeText={handleValueChange('car')}
-        value={formValues.car}
+        placeholder="Name"
+        onChangeText={handleValueChange('name')}
+        value={formValues.name}
       />
       <TextInput
         style={styles.inputs}
-        placeholder="Phone"
-        onChangeText={handleValueChange('phone')}
-        value={formValues.phone}
+        placeholder="Email"
+        onChangeText={handleValueChange('email')}
+        value={formValues.email}
       />
       <TextInput
         style={styles.inputs}
-        placeholder="Fruit"
+        placeholder="Password"
         secureTextEntry
-        onChangeText={handleValueChange('fruit')}
-        value={formValues.fruit}
+        onChangeText={handleValueChange('password')}
+        value={formValues.password}
       />
       <TextInput
         style={styles.inputs}
-        placeholder="Hobby"
-        onChangeText={handleValueChange('hobby')}
-        value={formValues.hobby}
-      />
-      <TextInput
-        style={styles.inputs}
-        placeholder="Film"
-        onChangeText={handleValueChange('film')}
-        value={formValues.film}
+        placeholder="City"
+        onChangeText={handleValueChange('city')}
+        value={formValues.city}
       />
 
       <View style={styles.button}>
@@ -97,7 +100,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: '5%',
   },
-
+  title: {
+    fontSize: 26,
+    marginBottom: '10%',
+  },
   inputs: {
     width: '100%',
     borderWidth: 2,
