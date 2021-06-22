@@ -26,7 +26,7 @@ export default function List() {
         });
       });
   }, []);
-  console.log(JSON.stringify(data));
+
   return (
     <FlatList
       data={data}
